@@ -28,7 +28,7 @@ class Character:
 
     def get_max_mana(self):
         return self.mana_max
-
+    
     def generate_damage(self):
         return random.randrange(self.attack_low, self.attack_high)
 
@@ -45,3 +45,24 @@ class Character:
 
     def reduce_mana(self, cost):
         self.mana -= cost
+
+    def display_actions(self):
+        print("\n")
+        print("╔═══════════════════════════╗")
+        print("║          Actions          ║")
+        print("╚═══════════════════════════╝")
+        print("What would you like to do?\n")
+        i = 1
+        for j in self.actions:
+            print(str(i) + ". " + j)
+            i += 1
+
+    def display_spells(self):
+        print("\n")
+        print("╔══════════════════════════╗")
+        print("║          Spells          ║")
+        print("╚══════════════════════════╝")
+        i = 1
+        for j in self.magic:
+            print(str(i) + ". " + j.name)
+            i += 1

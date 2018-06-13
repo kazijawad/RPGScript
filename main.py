@@ -31,6 +31,7 @@ ec_voldemort = Character("Lord Voldemort     ", 50, 50, [bm_cruciatus, bm_stingi
 ec_bellatrix = Character("Bellatrix Lestrange", 70, 30, [bm_stinging, bm_oppugno, bm_knockback, bm_toenail], [])
 ec_severus   = Character("Severus Snape      ", 40, 60, [bm_stinging, bm_oppugno, bm_knockback, bm_toenail], [pt_emerald])
 
+# Game Initialization
 players = [pc_harry, pc_ron, pc_hermione]
 enemies = [ec_voldemort, ec_bellatrix, ec_severus]
 running = True
@@ -45,17 +46,17 @@ def display_stats():
     print("\n")
     for enemy in enemies:
         print(enemy.name + "        " + str(enemy.health) + "                           " + str(enemy.mana))
-    print("\n")
+    print("\n")  
 
-def display_spells():
-    print("\n")
-    print("╔══════════════════════════╗")
-    print("║          Spells          ║")
-    print("╚══════════════════════════╝")
-    i = 1
-    for spell in players[player_choice].magic:
-        print(str(i) + ". " + spell.name)
-        i += 1
+# def display_items():
+#     print("\n")
+#     print("╔═════════════════════════╗")
+#     print("║          Items          ║")
+#     print("╚═════════════════════════╝")
+#     i = 1
+#     for item in players[player].items:
+#         print(str(i) + ". " + item.name)
+#         i += 1
 
 print("\n")
 print("╔══════════════════════════════════════════════╗")
@@ -64,33 +65,53 @@ print("╚═══════════════════════�
 
 while running:
     display_stats()
-    choice = input("What would you like to do? Attack|Magic|Item: ")
-    choice_regex = re.compile("attack|magic|item")
-    choice_result = re.search(choice_regex, choice)
+    player = input("Choose a Character: ")
 
-    if choice_result == None:
-        print("\n\nInvalid Choice!\n")
+    # Check Player Choice
+    if player.isdigit() == False:
+        print("\nPlease respond with a number.")
+        continue
+    elif int(player) > 3 or int(player) < 1:
+        print("\nPlease respond with a value between 1-3.")
+        continue
+    
+    # Set the player choice as a parsible integer
+    player = int(player) - 1
+    players[player].display_actions()
+    action = int(input("\nWhich action would you like to take? ")) - 1
+
+    if action == 0:
+        enemy = int(input("\nWhich enemy would you like to attack? ")) - 1
+        damage = players[player].generate_damage()
+        enemies[enemy].take_damage(damage)
+
+        print("\n" + players[player].name.strip(), "attacks", enemies[enemy].name.strip(), "for", str(damage) + "hp.")
+    elif action == 1:
+        enemy = int(input("\nWhich enemy would you like to attack? ")) - 1
+        players[player].display_spells()
+        spell = int(input("\nWhich spell would you like to use? ")) - 1
+
+        damage = players[player].magic[spell].generate_damage()
+        enemies[enemy].take_damage(damage)
+
+        print("\n" + players[player].name.strip(), "uses", players[player].magic[spell].name, "on", enemies[enemy].name.strip(), "for", str(damage) + "hp.")
+    
+    # Check Game Status
+    for player in players:
+        if player.health == 0:
+            players.remove(player)
+            print("\n" + player.name.strip() + "has died!")
+
+    for enemy in enemies:
+        if enemy.health == 0:
+            enemies.remove(enemy)
+            print("\n" + enemy.name.strip() + "has died!")
+    
+    if not players:
+        print("\nAll your character have died. The Dark Wizards have won!")
         running = False
-        break
-    elif choice_result.group() == "attack":
-        player_choice = int(input("\nWhich character should attack? Respond with a number: ")) - 1
-        enemy_choice = int(input("\nWhich enemy should be targetted? Respond with a number: ")) - 1
-
-        damage = players[player_choice].generate_damage()
-        enemies[enemy_choice].take_damage(damage)
-
-        print("\n" + players[player_choice].name.strip(), "attacks", enemies[enemy_choice].name.strip(), "for", str(damage) + "hp.")
         continue
-    elif choice_result.group() == "magic":
-        player_choice = int(input("\nWhich character should attack? Respond with a number: ")) - 1
-        enemy_choice = int(input("\nWhich enemy should be targetted? Respond with a number: ")) - 1
-        display_spells()
-        magic_choice = int(input("\nWhich spell would you like to use? Respond with a number: ")) - 1
-
-        damage = players[player_choice].magic[magic_choice].generate_damage()
-        enemies[enemy_choice].take_damage(damage)
-
-        print("\n" + players[player_choice].name.strip(), "uses", players[player_choice].magic[magic_choice].name, "on", enemies[enemy_choice].name.strip(), "for", str(damage) + "hp.")
+    elif not enemies:
+        print("\nAll the enemies are dead. You have beat the Dark Wizards!")
+        running = False
         continue
-
-    running = False
