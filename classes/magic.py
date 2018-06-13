@@ -9,6 +9,6 @@ class Spell:
         self.type = type
 
     def generate_damage(self):
-        low = self.damage - 15
-        high = self.damage + 15
+        low = self.damage - 5
+        high = self.damage + 5
         return random.randrange(low, high)
