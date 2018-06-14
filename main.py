@@ -1,5 +1,6 @@
 import os
 import re
+import random
 
 from classes.character import Character
 from classes.inventory import Item
@@ -66,7 +67,7 @@ while running:
     elif int(player) > 3 or int(player) < 1:
         print("\nPlease respond with a value between 1-3.")
         continue
-    
+
     # Set the player choice as a parsible integer
     player = int(player) - 1
     players[player].display_actions()
@@ -115,6 +116,12 @@ while running:
         if players[player].items[item].amount == 0:
             for item in players[player].items:
                 players[player].items.remove(item)
+
+    player = random.choice(players)
+    enemy = random.choice(enemies)
+    damage = enemy.generate_damage()
+    player.take_damage(damage)
+    print("\n"+ enemy.name.strip(), "attacks", player.name.strip(), "for", str(damage) + "hp.")
 
     # Check Game Status
     for player in players:

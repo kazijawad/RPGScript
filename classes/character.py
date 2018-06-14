@@ -26,7 +26,7 @@ class Character:
 
     def get_max_mana(self):
         return self.mana_max
-    
+
     def generate_damage(self):
         return random.randrange(self.attack_low, self.attack_high)
 
