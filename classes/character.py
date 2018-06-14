@@ -1,7 +1,5 @@
 import random
 
-from .magic import Spell
-
 
 class Character:
     def __init__(self, name, attack, defense, magic, items):
@@ -65,4 +63,14 @@ class Character:
         i = 1
         for j in self.magic:
             print(str(i) + ". " + j.name)
+            i += 1
+
+    def display_items(self):
+        print("\n")
+        print("╔═════════════════════════╗")
+        print("║          Items          ║")
+        print("╚═════════════════════════╝")
+        i = 1
+        for j in self.items:
+            print(str(i) + ". " + j.name + " - " + j.description + " (" + str(j.amount) + "x)")
             i += 1

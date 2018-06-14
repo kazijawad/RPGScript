@@ -19,12 +19,14 @@ bm_toenail = Spell("Toenail-Growing Hex", 5, 5, "black")
 wm_expelliarmus = Spell("Expelliarmus", 25, 25, "white")
 
 # Potions
-pt_emerald = Item("Drink of Despair", "potion", "A mysterious potion which induces fear, delirium, and extreme thirst.", 40)
+pt_pepperup = Item("Pepperup Potion", "heal", "A Pepperup Potion is designed to improve health,[1] relieve coughs and colds.", 30, 5)
+
+pt_emerald = Item("Drink of Despair", "attack", "A mysterious potion which induces fear, delirium, and extreme thirst.", 40, 1)
 
 # Player Characters
-pc_harry    = Character("Harry Potter    ", 50, 50, [wm_expelliarmus], [])
-pc_ron      = Character("Hermione Granger", 30, 70, [], [])
-pc_hermione = Character("Ron Weasley     ", 60, 40, [], [])
+pc_harry    = Character("Harry Potter    ", 50, 50, [wm_expelliarmus], [pt_pepperup])
+pc_ron      = Character("Hermione Granger", 30, 70, [], [pt_pepperup])
+pc_hermione = Character("Ron Weasley     ", 60, 40, [], [pt_pepperup])
 
 # Enemy Characters
 ec_voldemort = Character("Lord Voldemort     ", 50, 50, [bm_cruciatus, bm_stinging, bm_oppugno, bm_knockback, bm_toenail], [pt_emerald])
@@ -47,16 +49,6 @@ def display_stats():
     for enemy in enemies:
         print(enemy.name + "        " + str(enemy.health) + "                           " + str(enemy.mana))
     print("\n")  
-
-# def display_items():
-#     print("\n")
-#     print("╔═════════════════════════╗")
-#     print("║          Items          ║")
-#     print("╚═════════════════════════╝")
-#     i = 1
-#     for item in players[player].items:
-#         print(str(i) + ". " + item.name)
-#         i += 1
 
 print("\n")
 print("╔══════════════════════════════════════════════╗")
@@ -95,7 +87,35 @@ while running:
         enemies[enemy].take_damage(damage)
 
         print("\n" + players[player].name.strip(), "uses", players[player].magic[spell].name, "on", enemies[enemy].name.strip(), "for", str(damage) + "hp.")
-    
+    elif action == 2:
+        if not players[player].items:
+            print("\nThis character has no items!")
+            continue
+
+        players[player].display_items()
+        item = int(input("\nWhich item would you like to use? ")) - 1
+
+        if players[player].items[item].type == "attack":
+            enemy = int(input("\nWhich enemy would you like to attack? ")) - 1
+
+            damage = players[player].items[item].property
+            enemies[enemy].take_damage(damage)
+
+            print("\n" + players[player].name.strip(), "uses", players[player].items[item].name, "on", enemies[enemy].name.strip(), "for", str(damage) + "hp.")
+        elif players[player].items[item].type == "heal":
+            target = int(input("\nWhich character would you like to heal? ")) - 1
+
+            damage = players[player].items[item].property
+            players[target].heal(damage)
+
+            print("\n" + players[player].name.strip(), "heals", players[target].name.strip(), "with", players[player].items[item].name, "for", str(damage) + "hp.")
+
+        # Check Item Amount
+        players[player].items[item].amount -= 1
+        if players[player].items[item].amount == 0:
+            for item in players[player].items:
+                players[player].items.remove(item)
+
     # Check Game Status
     for player in players:
         if player.health == 0:
@@ -114,4 +134,3 @@ while running:
     elif not enemies:
         print("\nAll the enemies are dead. You have beat the Dark Wizards!")
         running = False
-        continue
