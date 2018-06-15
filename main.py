@@ -16,11 +16,13 @@ bm_oppugno = Spell("Oppugno Jinx", 15, 15, "black")
 bm_knockback = Spell("Knockback Jinx", 10, 10, "black")
 bm_toenail = Spell("Toenail-Growing Hex", 5, 5, "black")
 
+# TODO Add more white magic spells
 # White Magic
 wm_expelliarmus = Spell("Expelliarmus", 25, 25, "white")
 
+# TODO Add more potions
 # Potions
-pt_pepperup = Item("Pepperup Potion", "heal", "A Pepperup Potion is designed to improve health,[1] relieve coughs and colds.", 30, 5)
+pt_pepperup = Item("Pepperup Potion", "heal", "A Pepperup Potion is designed to improve health, relieve coughs and colds.", 30, 5)
 
 pt_emerald = Item("Drink of Despair", "attack", "A mysterious potion which induces fear, delirium, and extreme thirst.", 40, 1)
 
@@ -39,6 +41,8 @@ players = [pc_harry, pc_ron, pc_hermione]
 enemies = [ec_voldemort, ec_bellatrix, ec_severus]
 running = True
 
+# TODO Make health/mana more visual with bars
+    # TODO Make visual bars scale properly
 def display_stats():
     print("\n")
     print("╔═══════════════╗          ╔══════════════════╗          ╔════════════════╗")
@@ -80,10 +84,15 @@ while running:
 
         print("\n" + players[player].name.strip(), "attacks", enemies[enemy].name.strip(), "for", str(damage) + "hp.")
     elif action == 1:
+        if not players[player].mana:
+            print("\nThat character has no mana!")
+            continue
+
         enemy = int(input("\nWhich enemy would you like to attack? ")) - 1
         players[player].display_spells()
         spell = int(input("\nWhich spell would you like to use? ")) - 1
 
+        players[player].reduce_mana(players[player].magic[spell].cost)
         damage = players[player].magic[spell].generate_damage()
         enemies[enemy].take_damage(damage)
 
@@ -117,6 +126,7 @@ while running:
             for item in players[player].items:
                 players[player].items.remove(item)
 
+    # TODO Allow for enemies to use spells and items
     player = random.choice(players)
     enemy = random.choice(enemies)
     damage = enemy.generate_damage()
@@ -127,13 +137,14 @@ while running:
     for player in players:
         if player.health == 0:
             players.remove(player)
-            print("\n" + player.name.strip() + "has died!")
+            print("\n" + player.name.strip() + " died!")
 
     for enemy in enemies:
         if enemy.health == 0:
             enemies.remove(enemy)
-            print("\n" + enemy.name.strip() + "has died!")
-    
+            print("\n" + enemy.name.strip() + " died!")
+
+    # TODO Add replay feature
     if not players:
         print("\nAll your character have died. The Dark Wizards have won!")
         running = False

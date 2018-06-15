@@ -15,18 +15,6 @@ class Character:
         self.items = items
         self.actions = ['Attack', 'Magic', 'Items']
 
-    def get_health(self):
-        return self.health
-
-    def get_max_health(self):
-        return self.health_max
-
-    def get_mana(self):
-        return self.mana
-
-    def get_max_mana(self):
-        return self.mana_max
-
     def generate_damage(self):
         return random.randrange(self.attack_low, self.attack_high)
 
