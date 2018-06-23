@@ -54,19 +54,25 @@ playerCount = 3
 enemyCount = 3
 running = True
 
-# TODO Make health/mana more visual with bars
-    # TODO Make visual bars scale properly
+def check_stats(stat):
+    stat = str(stat)
+    if len(stat) < 3 and len(stat) > 1:
+        stat = stat + " "
+    elif len(stat) < 2:
+        stat = stat + "  "
+    return stat
+
 def display_stats():
     print("\n")
     print("╔═══════════════╗          ╔══════════════════╗          ╔════════════════╗")
     print("║     Names     ║          ║      Health      ║          ║      Mana      ║")
     print("╚═══════════════╝          ╚══════════════════╝          ╚════════════════╝")
     for player in players:
-        print(player.name + "           " + str(player.health) + "                           " + str(player.mana))
+        print(player.name + "           " + check_stats(player.health) + "                           " + check_stats(player.mana))
     print("\n")
     for enemy in enemies:
-        print(enemy.name + "        " + str(enemy.health) + "                           " + str(enemy.mana))
-    print("\n")  
+        print(enemy.name + "        " + check_stats(enemy.health) + "                           " + check_stats(enemy.mana))
+    print("\n")
 
 print("\n")
 print("╔══════════════════════════════════════════════╗")
