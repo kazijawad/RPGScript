@@ -30,7 +30,7 @@ wm_stupefy = Spell("Stupefy", 20, 20, "white")
 # Healing Potions
 pt_peace = Item("Draught of Peace", "heal", "The Draught of Peace provides personal comfort, calms anxiety and soothes agitation.", 50, 1)
 pt_pepperup = Item("Pepperup Potion", "heal", "A Pepperup Potion is designed to improve health, relieve coughs and colds.", 30, 5)
-pt_skele = Item("Skele-Gro", "Skele-Gro is a medicinal potion that can regrow missing or removed bones, though it tastes terrible and the process is very slow and extremely painful.", 60, 1)
+pt_skele = Item("Skele-Gro", "heal", "Skele-Gro is a medicinal potion that can regrow missing or removed bones, though it tastes terrible and the process is very slow and extremely painful.", 60, 1)
 
 # Attack Potions
 pt_confusing = Item("Confusing Concoction", "attack", "A Confusing Concoction will cause the drinker to become confused, distracted and sick.", 15, 10)
@@ -45,11 +45,13 @@ pc_hermione = Character("Ron Weasley     ", 60, 40, [wm_confundo, wm_finestra, w
 # Enemy Characters
 ec_voldemort = Character("Lord Voldemort     ", 50, 50, [bm_avada, bm_cruciatus, bm_knockback, bm_oppugno, bm_stinging, bm_toenail], [pt_emerald])
 ec_bellatrix = Character("Bellatrix Lestrange", 70, 30, [bm_cruciatus, bm_knockback, bm_oppugno, bm_stinging, bm_toenail], [pt_confusing])
-ec_severus   = Character("Severus Snape      ", 40, 60, [bm_knockback, bm_oppugno, bm_sectumsempra, bm_stinging, bm_toenail], [pt_draught, pt_emerald])
+ec_severus   = Character("Severus Snape      ", 40, 60, [bm_knockback, bm_oppugno, bm_sectumsempra, bm_stinging, bm_toenail], [pt_death, pt_emerald])
 
 # Game Initialization
 players = [pc_harry, pc_ron, pc_hermione]
 enemies = [ec_voldemort, ec_bellatrix, ec_severus]
+playerCount = 3
+enemyCount = 3
 running = True
 
 # TODO Make health/mana more visual with bars
@@ -79,8 +81,8 @@ while running:
     if player.isdigit() == False:
         print("\nPlease respond with a number.")
         continue
-    elif int(player) > 3 or int(player) < 1:
-        print("\nPlease respond with a value between 1-3.")
+    elif int(player) > playerCount or int(player) < 1:
+        print("\nPlease respond with a value between 1-" + str(playerCount) + ".")
         continue
 
     # Set the player choice as a parsible integer
@@ -148,6 +150,7 @@ while running:
     for player in players:
         if player.health == 0:
             players.remove(player)
+            playerCount -= 1
             print("\n" + player.name.strip() + " died!")
 
     for enemy in enemies:
