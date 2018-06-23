@@ -88,10 +88,31 @@ while running:
     # Set the player choice as a parsible integer
     player = int(player) - 1
     players[player].display_actions()
-    action = int(input("\nWhich action would you like to take? ")) - 1
+
+    # Ask for an Action
+    while True:
+        action = input("\nWhich action would you like to take? ")
+        if action.isdigit() == False:
+            print("\nPlease respond with a number.")
+            continue
+        elif int(action) > 3 or int(action) < 1:
+            print("\nPlease respond with a value between 1-3.")
+            continue
+        break
+    action = int(action) - 1
 
     if action == 0:
-        enemy = int(input("\nWhich enemy would you like to attack? ")) - 1
+        # Check Proper Enemy Selection
+        while True:
+            enemy = input("\nWhich enemy would you like to attack? ")
+            if enemy.isdigit() == False:
+                print("\nPlease respond with a number.")
+                continue
+            elif int(enemy) > enemyCount or int(enemy) < 1:
+                print("\nPlease respond with a value between 1-" + str(enemyCount) + ".")
+                continue
+            break
+        enemy = int(enemy) - 1
         damage = players[player].generate_damage()
         enemies[enemy].take_damage(damage)
 
@@ -156,6 +177,7 @@ while running:
     for enemy in enemies:
         if enemy.health == 0:
             enemies.remove(enemy)
+            enemyCount -= 1
             print("\n" + enemy.name.strip() + " died!")
 
     # TODO Add replay feature
