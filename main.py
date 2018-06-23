@@ -27,21 +27,25 @@ wm_muffliato = Spell("Muffliato", 15, 15, "white")
 wm_petrificus = Spell("Petrificus Totalus", 25, 25, "white")
 wm_stupefy = Spell("Stupefy", 20, 20, "white")
 
-# TODO Add more potions
-# Potions
+# Healing Potions
+pt_peace = Item("Draught of Peace", "heal", "The Draught of Peace provides personal comfort, calms anxiety and soothes agitation.", 50, 1)
 pt_pepperup = Item("Pepperup Potion", "heal", "A Pepperup Potion is designed to improve health, relieve coughs and colds.", 30, 5)
+pt_skele = Item("Skele-Gro", "Skele-Gro is a medicinal potion that can regrow missing or removed bones, though it tastes terrible and the process is very slow and extremely painful.", 60, 1)
 
+# Attack Potions
+pt_confusing = Item("Confusing Concoction", "attack", "A Confusing Concoction will cause the drinker to become confused, distracted and sick.", 15, 10)
+pt_death = Item("Draught of Living Death", "attack", "When a person drinks the Draught of Living Death, they go into a deep sleep so strong that they appear to be dead, hence the name.", 40, 3)
 pt_emerald = Item("Drink of Despair", "attack", "A mysterious potion which induces fear, delirium, and extreme thirst.", 40, 1)
 
 # Player Characters
-pc_harry    = Character("Harry Potter    ", 50, 50, [wm_expelliarmus, wm_levicorpus, wm_stupefy], [pt_pepperup])
-pc_ron      = Character("Hermione Granger", 30, 70, [wm_levicorpus, wm_petrificus], [pt_pepperup])
-pc_hermione = Character("Ron Weasley     ", 60, 40, [wm_confundo, wm_finestra, wm_levicorpus, wm_muffliato], [pt_pepperup])
+pc_harry    = Character("Harry Potter    ", 50, 50, [wm_expelliarmus, wm_levicorpus, wm_stupefy], [pt_confusing, pt_pepperup, pt_skele])
+pc_ron      = Character("Hermione Granger", 30, 70, [wm_levicorpus, wm_petrificus], [pt_confusing, pt_pepperup])
+pc_hermione = Character("Ron Weasley     ", 60, 40, [wm_confundo, wm_finestra, wm_levicorpus, wm_muffliato], [pt_confusing, pt_peace, pt_pepperup])
 
 # Enemy Characters
 ec_voldemort = Character("Lord Voldemort     ", 50, 50, [bm_avada, bm_cruciatus, bm_knockback, bm_oppugno, bm_stinging, bm_toenail], [pt_emerald])
-ec_bellatrix = Character("Bellatrix Lestrange", 70, 30, [bm_cruciatus, bm_knockback, bm_oppugno, bm_stinging, bm_toenail], [])
-ec_severus   = Character("Severus Snape      ", 40, 60, [bm_knockback, bm_oppugno, bm_sectumsempra, bm_stinging, bm_toenail], [pt_emerald])
+ec_bellatrix = Character("Bellatrix Lestrange", 70, 30, [bm_cruciatus, bm_knockback, bm_oppugno, bm_stinging, bm_toenail], [pt_confusing])
+ec_severus   = Character("Severus Snape      ", 40, 60, [bm_knockback, bm_oppugno, bm_sectumsempra, bm_stinging, bm_toenail], [pt_draught, pt_emerald])
 
 # Game Initialization
 players = [pc_harry, pc_ron, pc_hermione]
