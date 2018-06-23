@@ -10,15 +10,22 @@ from classes.magic import Spell
 terminal_size = os.get_terminal_size().columns
 
 # Black Magic
+bm_avada = Spell("Avada Kedavra", 100, 100, "black")
 bm_cruciatus = Spell("Cruciatus Curse", 70, 70, "black")
-bm_stinging = Spell("Stinging Jinx", 20, 20, "black")
-bm_oppugno = Spell("Oppugno Jinx", 15, 15, "black")
 bm_knockback = Spell("Knockback Jinx", 10, 10, "black")
+bm_oppugno = Spell("Oppugno Jinx", 15, 15, "black")
+bm_sectumsempra = Spell("Sectumsempra", 60, 60, "black")
+bm_stinging = Spell("Stinging Jinx", 20, 20, "black")
 bm_toenail = Spell("Toenail-Growing Hex", 5, 5, "black")
 
-# TODO Add more white magic spells
 # White Magic
+wm_confundo = Spell("Confundo", 15, 15, "white")
 wm_expelliarmus = Spell("Expelliarmus", 25, 25, "white")
+wm_finestra = Spell("Finestra", 10, 10, "white")
+wm_levicorpus = Spell("Levicorpus", 10, 10, "white")
+wm_muffliato = Spell("Muffliato", 15, 15, "white")
+wm_petrificus = Spell("Petrificus Totalus", 25, 25, "white")
+wm_stupefy = Spell("Stupefy", 20, 20, "white")
 
 # TODO Add more potions
 # Potions
@@ -27,14 +34,14 @@ pt_pepperup = Item("Pepperup Potion", "heal", "A Pepperup Potion is designed to 
 pt_emerald = Item("Drink of Despair", "attack", "A mysterious potion which induces fear, delirium, and extreme thirst.", 40, 1)
 
 # Player Characters
-pc_harry    = Character("Harry Potter    ", 50, 50, [wm_expelliarmus], [pt_pepperup])
-pc_ron      = Character("Hermione Granger", 30, 70, [], [pt_pepperup])
-pc_hermione = Character("Ron Weasley     ", 60, 40, [], [pt_pepperup])
+pc_harry    = Character("Harry Potter    ", 50, 50, [wm_expelliarmus, wm_levicorpus, wm_stupefy], [pt_pepperup])
+pc_ron      = Character("Hermione Granger", 30, 70, [wm_levicorpus, wm_petrificus], [pt_pepperup])
+pc_hermione = Character("Ron Weasley     ", 60, 40, [wm_confundo, wm_finestra, wm_levicorpus, wm_muffliato], [pt_pepperup])
 
 # Enemy Characters
-ec_voldemort = Character("Lord Voldemort     ", 50, 50, [bm_cruciatus, bm_stinging, bm_oppugno, bm_knockback, bm_toenail], [pt_emerald])
-ec_bellatrix = Character("Bellatrix Lestrange", 70, 30, [bm_stinging, bm_oppugno, bm_knockback, bm_toenail], [])
-ec_severus   = Character("Severus Snape      ", 40, 60, [bm_stinging, bm_oppugno, bm_knockback, bm_toenail], [pt_emerald])
+ec_voldemort = Character("Lord Voldemort     ", 50, 50, [bm_avada, bm_cruciatus, bm_knockback, bm_oppugno, bm_stinging, bm_toenail], [pt_emerald])
+ec_bellatrix = Character("Bellatrix Lestrange", 70, 30, [bm_cruciatus, bm_knockback, bm_oppugno, bm_stinging, bm_toenail], [])
+ec_severus   = Character("Severus Snape      ", 40, 60, [bm_knockback, bm_oppugno, bm_sectumsempra, bm_stinging, bm_toenail], [pt_emerald])
 
 # Game Initialization
 players = [pc_harry, pc_ron, pc_hermione]
