@@ -166,12 +166,35 @@ while running:
             for item in players[player].items:
                 players[player].items.remove(item)
 
-    # TODO Allow for enemies to use spells and items
+    # Enemy Actions
     player = random.choice(players)
     enemy = random.choice(enemies)
-    damage = enemy.generate_damage()
-    player.take_damage(damage)
-    print("\n"+ enemy.name.strip(), "attacks", player.name.strip(), "for", str(damage) + "hp.")
+
+    action = enemy.rand_action()
+    if action == 0:
+        damage = enemy.generate_damage()
+        player.take_damage(damage)
+        print("\n"+ enemy.name.strip(), "attacks", player.name.strip(), "for", str(damage) + "hp.")
+    elif action == 1:
+        if not enemy.mana:
+            print("\nThe enemy attempted a spell, but had no mana!")
+            continue
+
+        spell = enemy.rand_spell()
+        enemy.reduce_mana(enemy.magic[spell].cost)
+        damage = enemy.magic[spell].generate_damage()
+        player.take_damage(damage)
+
+        print("\n" + enemy.name.strip(), "uses", enemy.magic[spell].name, "on", player.name.strip(), "for", str(damage) + "hp.")
+    elif action == 2:
+        if not enemy.items:
+            print("\nThe enemy wanted to use an item, but they had no items left!")
+            continue
+
+        item = enemy.rand_item()
+        damage = enemy.items[item].property
+        player.take_damage(damage)
+        print("\n" + enemy.name.strip(), "uses", enemy.items[item].name, "on", player.name.strip(), "for", str(damage) + "hp.")
 
     # Check Game Status
     for player in players:
@@ -186,11 +209,9 @@ while running:
             enemyCount -= 1
             print("\n" + enemy.name.strip() + " died!")
 
-    # TODO Add replay feature
     if not players:
         print("\nAll your character have died. The Dark Wizards have won!")
         running = False
-        continue
     elif not enemies:
         print("\nAll the enemies are dead. You have beat the Dark Wizards!")
         running = False

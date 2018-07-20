@@ -32,6 +32,18 @@ class Character:
     def reduce_mana(self, cost):
         self.mana -= cost
 
+    def rand_action(self):
+        action = random.randint(0, 2)
+        return action
+
+    def rand_spell(self):
+        spell = random.randrange(0, len(self.magic))
+        return spell
+
+    def rand_item(self):
+        item = random.randrange(0, len(self.items))
+        return item
+
     def display_actions(self):
         print("\n")
         print("╔═══════════════════════════╗")
